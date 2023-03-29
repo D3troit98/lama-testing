@@ -45,3 +45,6 @@ jobs:
       - name : Start the app
         run: |
           npm start & npx wait-on --timeout 60000
+      - name : Run Visual tests
+        run: |
+         npm run test:visual
