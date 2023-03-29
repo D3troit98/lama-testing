@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import Login from "./Login/Login";
 
 jest.mock("axios", () => ({
@@ -57,7 +58,10 @@ test("username input should be changed", () => {
   const userInputEl = screen.getByPlaceholderText(/username/i);
   const testValue = "test";
 
-  fireEvent.change(userInputEl, { target: { value: testValue } });
+  act(() => {
+    fireEvent.change(userInputEl, { target: { value: testValue } });
+  });
+
   expect(userInputEl.value).toBe(testValue);
 });
 
@@ -66,7 +70,10 @@ test("password input should be changed", () => {
   const passInputEl = screen.getByPlaceholderText(/password/i);
   const testValue = "test";
 
-  fireEvent.change(passInputEl, { target: { value: testValue } });
+  act(() => {
+    fireEvent.change(passInputEl, { target: { value: testValue } });
+  });
+
   expect(passInputEl.value).toBe(testValue);
 });
 
@@ -76,8 +83,10 @@ test("button should not be disabled when inputs exists", () => {
   const userInputEl = screen.getByPlaceholderText(/username/i);
   const passInputEl = screen.getByPlaceholderText(/password/i);
   const testValue = "test";
-  fireEvent.change(userInputEl, { target: { value: testValue } });
-  fireEvent.change(passInputEl, { target: { value: testValue } });
+  act(() => {
+    fireEvent.change(userInputEl, { target: { value: testValue } });
+    fireEvent.change(passInputEl, { target: { value: testValue } });
+  });
   expect(butttonInputEl).not.toBeDisabled();
 });
 
@@ -92,10 +101,16 @@ test("loading should be rendered when clicked", () => {
   const butttonInputEl = screen.getByRole("button");
   const userInputEl = screen.getByPlaceholderText(/username/i);
   const passInputEl = screen.getByPlaceholderText(/password/i);
-  const testValue = "test";
-  fireEvent.change(userInputEl, { target: { value: testValue } });
-  fireEvent.change(passInputEl, { target: { value: testValue } });
-  fireEvent.click(butttonInputEl);
+
+  act(() => {
+    const testValue = "test";
+    fireEvent.change(userInputEl, { target: { value: testValue } });
+    fireEvent.change(passInputEl, { target: { value: testValue } });
+  });
+
+  act(() => {
+    fireEvent.click(butttonInputEl);
+  });
 
   expect(butttonInputEl).toHaveTextContent(/please wait/i);
 });
@@ -106,9 +121,11 @@ test("loading should not be rendered after fetching", async () => {
   const userInputEl = screen.getByPlaceholderText(/username/i);
   const passInputEl = screen.getByPlaceholderText(/password/i);
   const testValue = "test";
-  fireEvent.change(userInputEl, { target: { value: testValue } });
-  fireEvent.change(passInputEl, { target: { value: testValue } });
-  fireEvent.click(butttonInputEl);
+  act(() => {
+    fireEvent.change(userInputEl, { target: { value: testValue } });
+    fireEvent.change(passInputEl, { target: { value: testValue } });
+    fireEvent.click(butttonInputEl);
+  });
 
   await waitFor(() =>
     expect(butttonInputEl).not.toHaveTextContent(/please wait/i)
@@ -121,9 +138,13 @@ test("user should be rendered after fetching", async () => {
   const userInputEl = screen.getByPlaceholderText(/username/i);
   const passInputEl = screen.getByPlaceholderText(/password/i);
   const testValue = "test";
-  fireEvent.change(userInputEl, { target: { value: testValue } });
-  fireEvent.change(passInputEl, { target: { value: testValue } });
-  fireEvent.click(butttonInputEl);
+
+  act(() => {
+    fireEvent.change(userInputEl, { target: { value: testValue } });
+    fireEvent.change(passInputEl, { target: { value: testValue } });
+    fireEvent.click(butttonInputEl);
+  });
+
   const userItem = await screen.findByText("John");
 
   expect(userItem).toBeInTheDocument();

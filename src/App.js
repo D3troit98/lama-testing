@@ -14,7 +14,7 @@ function App() {
         </p>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="ultimateqa.com"
           target="_blank"
           rel="noopener noreferrer"
           data-testid="mylink"

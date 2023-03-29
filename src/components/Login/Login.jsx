@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const Login = () => {
-  const [error, setError] = useState();
-  const [password, setPassword] = useState();
-  const [username, setUsername] = useState();
+  const [error, setError] = useState(false);
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -13,7 +13,7 @@ const Login = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        "http://jsonplaceholder.typicode.com/users/1"
+        "https://jsonplaceholder.typicode.com/users/1"
       );
       setUser(data);
     } catch {

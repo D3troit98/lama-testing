@@ -13,6 +13,12 @@ test("renders 3 list items", () => {
   expect(listItems.length).toBe(3);
 });
 
+test("url is correct", () => {
+  render(<App />);
+  const linkElement = screen.getByText(/learn react/i);
+  expect(linkElement.href).toContain("ultimateqa.com");
+});
+
 test("renders title", () => {
   render(<App />);
   const title = screen.getByTestId("mytSumestid");
